@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors')
@@ -21,7 +22,6 @@ app.use('/api/settings', settingRouter);
 // ----------------------------------------------------------------
 
 
-require('dotenv').config()
 
 //UI Routesx`
 app.get('/', (req, res) => {

@@ -4,5 +4,6 @@ const settingRouter = express.Router();
 
 
 settingRouter.get('/save', settingController.addSetting);
+settingRouter.get('/show', settingController.showSetting);
 
 module.exports = settingRouter;
