@@ -19,12 +19,33 @@ const showSetting = async (req, res) => {
 }
 
 const blockSite = async (req, res) => {
-    await MySetting.findByIdAndUpdate(req.body._id, {BlockSiteURL: req.body.BlockSiteURL, BlockSitePermission: req.body.BlockSitePermission}, function(err, result){
-        if(err) {
-            res.json({status: 0, message: "Error While Updating Setting."});
-        }else{
-            res.json({status: 1, message: "site updated successfully"});
+    await MySetting.findByIdAndUpdate({ _id: process.env.SettingObjectID }, req.body, function (err, result) {
+        if (err) {
+            res.json({ status: 0, message: "Error While Updating Setting." });
+        } else {
+            res.json({ status: 1, message: "Block Site Setting Updated Successfully" });
+        }
+    }).clone();
+}
+
+const redirectWebsite = async (req, res) => {
+    await MySetting.findByIdAndUpdate({ _id: process.env.SettingObjectID }, req.body, function (err, result) {
+        if (err) {
+            res.json({ status: 0, message: "Error While Updating Setting." });
+        } else {
+            res.json({ status: 1, message: "Redirect Site Setting Updated Successfully" });
+        }
+    }).clone();
+}
+
+const embedIframe = async (req, res) => {
+    await MySetting.findByIdAndUpdate({ _id: process.env.SettingObjectID }, req.body, function (err, result) {
+        if (err) {
+            res.json({ status: 0, message: "Error While Updating Setting." });
+        } else {
+            res.json({ status: 1, message: "Iframe Setting Updated Successfully" });
         }
     })
 }
-module.exports = {addSetting, showSetting, blockSite}
+
+module.exports = { addSetting, showSetting, blockSite, redirectWebsite, embedIframe }

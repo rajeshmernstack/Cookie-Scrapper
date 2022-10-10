@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +11,35 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>All Screenshots</title>
 </head>
+
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <img src="" alt="" srcset="">
+    <%- include('./partials/navbar.ejs') %>
+        <div class="container mt-3">
+            <div class="row" id="screenshots-row">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
         </div>
-    </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $(document).ready(function () {
+                $.get("http://localhost:3000/api/screenshots/all", (data, status) => {
+                    if (status === "success") {
+                        console.log(data);
+                        let images = "";
+                        data.data.forEach(screenshot => {
+                            images += `<div class="col-md-3 mt-1"><img src="${screenshot.screenshotURI}" height="350" width="320" alt="Screenshot"></div>`;
+                        });
+                        $('#screenshots-row').html(images);
+                    }
+                })
+            })
+        </script>
 
 </body>
+
 </html>

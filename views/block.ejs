@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +11,90 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Block Website</title>
 </head>
+
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <img src="" alt="" srcset="">
+    <%- include('./partials/navbar.ejs') %>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 border">
+                    <form id="block-site-form">
+                        <div class="mb-3 form-control text-center">
+                            <h4>Block Site</h4>
+                        </div>
+                        <div class="mb-3 form-control">
+                            <label for="BlockSiteURL" class="form-label">Block Site URL</label>
+                            <input type="text" name="BlockSiteURL" class="form-control" id="BlockSiteURL"
+                                aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3 form-control">
+                            <h5>Status</h5>
+                            <br />
+                            <input type="radio" name="BlockSitePermission" value="true" class="form-check-input"
+                                id="status-enable">
+                            <label class="form-check-label" for="exampleCheck1">Enable</label>
+                            <br />
+                            <input type="radio" name="BlockSitePermission" value="false" class="form-check-input"
+                                id="status-disable">
+                            <label class="form-check-label" for="exampleCheck1">Disable</label>
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            $(document).ready(() => {
+                $.get('http://localhost:3000/api/settings/show', (data, status) => {
+                    if (status === "success") {
+                        console.log(data.data[0]);
+                        if (data.data[0].BlockSitePermission) {
+                            $("#status-enable").prop("checked", true);
+                        } else {
+                            $("#status-disable").prop("checked", true);
+                        }
+
+                        $('#BlockSiteURL').val(data.data[0].BlockSiteURL);
+
+                    }
+                })
+            });
+
+            $('#block-site-form').on('submit', (event) => {
+                event.preventDefault();
+                let data = $('#block-site-form').serializeArray()
+
+                $.post("http://localhost:3000/api/settings/block", { _id: "63425772fcbcb43c81b7cf20", BlockSitePermission: data[1].value, BlockSiteURL: data[0].value }, (data, status) => {
+                    if (status === "success") {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Settings Updated Successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    } else {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: 'Error Occured',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+                })
+            })
+            // $("input[name='status']:checked").val();
+        </script>
 
 </body>
+
 </html>

@@ -5,6 +5,6 @@ const cookieRouter = express.Router();
 
 cookieRouter.get('/all', cookieController.allCookies);
 cookieRouter.get('/delete/:cookieid', cookieController.deleteCookie);
-cookieRouter.get('/save', cookieController.saveCookie);
+cookieRouter.post('/save', cookieController.saveCookie);
 
 module.exports = cookieRouter;

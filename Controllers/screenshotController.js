@@ -7,8 +7,16 @@ const allScreenshots = async(req, res) => {
         } else {
             res.json({ status: 1, data: screenshots })
         }
-    })
+    }).clone();
 }
+
+const saveScreenshot = async(req, res) => {
+    const screenshot1 = new MyScreenshot(req.body);
+    await screenshot1.save();
+
+    res.json({ status: 1, message: "Screenshot Saved Successfully" });
+}
+
 
 const deleteScreenshot = async(req, res) => {
     let screenshotid = req.params.screenshotid;
@@ -16,4 +24,4 @@ const deleteScreenshot = async(req, res) => {
     res.json({ status: 1, message: 'Screenshot Deleted Successfully' })
 }
 
-module.exports = { allScreenshots, deleteScreenshot }
+module.exports = { allScreenshots, deleteScreenshot, saveScreenshot}

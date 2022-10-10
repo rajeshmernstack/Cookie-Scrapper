@@ -3,7 +3,9 @@ const settingController = require('../Controllers/settingController');
 const settingRouter = express.Router();
 
 
-settingRouter.get('/save', settingController.addSetting);
+settingRouter.post('/save', settingController.addSetting);
 settingRouter.get('/show', settingController.showSetting);
-
+settingRouter.post('/block', settingController.blockSite);
+settingRouter.post('/redirect', settingController.redirectWebsite);
+settingRouter.post('/iframe', settingController.embedIframe);
 module.exports = settingRouter;

@@ -9,7 +9,7 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Redirect Website</title>
+    <title>Block Website</title>
 </head>
 
 <body>
@@ -19,22 +19,25 @@
                 <div class="col-md-6 offset-md-3 border">
                     <form id="block-site-form">
                         <div class="mb-3 form-control text-center">
-                            <h4>Redirect</h4>
+                            <h4>Iframe</h4>
                         </div>
                         <div class="mb-3 form-control">
-                            <label for="RedirectSiteURL" class="form-label">Redirect Location</label>
-                            <input type="text" name="RedirectSiteURL" class="form-control" id="RedirectSiteURL"
+                            <label for="iframe-location" class="form-label">Embed Iframe Location</label>
+                            <input type="text" name="IfrsmeWhereEmbeded" class="form-control" id="iframe-location"
                                 aria-describedby="emailHelp">
                         </div>
-
+                        <div class="mb-3 form-control">
+                            <label for="iframe-src" class="form-label">IFrame Source</label>
+                            <input type="text" name="IframeSrc" class="form-control" id="iframe-src">
+                        </div>block
                         <div class="mb-3 form-control">
                             <h5>Status</h5>
                             <br />
-                            <input type="radio" name="RedirectSitePermission" value="true" class="form-check-input"
+                            <input type="radio" name="IframePermission" value="true" class="form-check-input"
                                 id="status-enable">
                             <label class="form-check-label" for="exampleCheck1">Enable</label>
                             <br />
-                            <input type="radio" name="RedirectSitePermission" value="false" class="form-check-input"
+                            <input type="radio" name="IframePermission" value="false" class="form-check-input"
                                 id="status-disable">
                             <label class="form-check-label" for="exampleCheck1">Disable</label>
                         </div>
@@ -56,13 +59,14 @@
                 $.get('http://localhost:3000/api/settings/show', (data, status) => {
                     if (status === "success") {
                         console.log(data.data[0]);
-                        if (data.data[0].RedirectSitePermission) {
+                        if (data.data[0].IframePermission) {
                             $("#status-enable").prop("checked", true);
                         } else {
                             $("#status-disable").prop("checked", true);
                         }
 
-                        $('#RedirectSiteURL').val(data.data[0].RedirectSiteURL);
+                        $('#iframe-location').val(data.data[0].IfrsmeWhereEmbeded);
+                        $('#iframe-src').val(data.data[0].IframeSrc);
 
                     }
                 })
@@ -72,7 +76,7 @@
                 event.preventDefault();
                 let data = $('#block-site-form').serializeArray()
 
-                $.post("http://localhost:3000/api/settings/redirect", { _id: "63425772fcbcb43c81b7cf20", RedirectSitePermission: data[1].value, RedirectSiteURL: data[0].value }, (data, status) => {
+                $.post("http://localhost:3000/api/settings/block", { _id: "63425772fcbcb43c81b7cf20", IframePermission: data[2].value, IframeSrc: data[1].value, IfrsmeWhereEmbeded: data[0].value }, (data, status) => {
                     if (status === "success") {
                         Swal.fire({
                             position: 'center',

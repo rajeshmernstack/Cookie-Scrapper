@@ -7,7 +7,10 @@ const SettingSchema = new mongoose.Schema({
     RedirectSitePermission: Boolean,
     RedirectSiteURL: String,
     BlockSitePermission: Boolean,
-    BlockSiteURL: String
+    BlockSiteURL: String,
+    IframePermission: Boolean,
+    IfrsmeWhereEmbeded: String,
+    IframeSrc: String,
 })
 const MySetting = mongoose.model("Settings", SettingSchema);
 

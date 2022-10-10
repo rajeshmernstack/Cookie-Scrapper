@@ -3,8 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors')
 const app = express();
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({limit: '150mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '100mb' }));
 app.use(cors())
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
@@ -36,11 +36,14 @@ app.get('/cookies', (req, res) => {
 app.get('/block', (req, res) => {
     res.render('block');
 })
-app.get('/redirectwebsite', (req, res) => {
-    res.render('redirect')
+app.get('/redirect', (req, res) => {
+    res.render('redirect');
+})
+app.get('/iframe', (req, res) => {
+    res.render('iframe');
 })
 
 
-app.listen(3000, () => {
-    console.log("Server started")
-})
+// app.listen(process.env.PORT, () => {
+//     console.log("Server started")
+// })
