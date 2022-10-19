@@ -1,2 +1,0 @@
-showCookieData('<%= cookie.cookiedata %>')
-deleteCookie('<%= cookie._id %>')

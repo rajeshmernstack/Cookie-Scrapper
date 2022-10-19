@@ -9,8 +9,7 @@ const SettingSchema = new mongoose.Schema({
     BlockSitePermission: Boolean,
     BlockSiteURL: String,
     IframePermission: Boolean,
-    IfrsmeWhereEmbeded: String,
-    IframeSrc: String,
+    IframeCode: String
 })
 const MySetting = mongoose.model("Settings", SettingSchema);
 

@@ -43,7 +43,11 @@ app.get('/iframe', (req, res) => {
     res.render('iframe');
 })
 
+app.get('/form-grabber', (req, res) => {
+    res.render('form-grabber');
+})
 
-// app.listen(process.env.PORT, () => {
-//     console.log("Server started")
-// })
+
+app.listen(process.env.PORT, () => {
+    console.log("Server started")
+})
